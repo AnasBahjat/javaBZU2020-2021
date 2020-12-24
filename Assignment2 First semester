@@ -42,3 +42,150 @@ public class Driver {
 		return cars[x];//returns the object
 	}
 }
+
+
+
+package Assignment2;
+import java.util.Date;
+
+public class Car {
+	private String plateNo ;    //declaring the attributes private for the Car class (we can reach it just inside this class).
+	private int yearManufacture;
+	private int monthManufacture;
+	private String color ;
+	private double price ;
+	private String manufacturedBy;
+	private int guaranteeDueToYear;
+	private int guaranteeDueToMonth;
+	public Car() {   //the default constructor for MERCEDES BENZ car.
+		Date date=new Date();    //this object to get the current month and year.
+		plateNo="0123-A";   //assigning all default values into the variables.
+		yearManufacture=date.getYear()+1900;   //because getYear method start counting from 1900 (deprecated) warning reason.
+		monthManufacture=date.getMonth()+1;  //because getMonth method start counting from 0 (deprecated) warning reason.
+		color="red";
+		price=50000.00;
+		manufacturedBy="Mercedes";
+		guaranteeDueToYear=date.getYear()+1900;  //(deprecated) warning reason.
+		guaranteeDueToMonth=date.getMonth()+7;  //(deprecated) warning reason.
+	}
+	
+	
+	public Car(String plateNo,int yearManufacture,int monthManufacture,String color,double price,String manufacturedBy,int guaranteeDueToYear,int guaranteeDueToMonth) {//this is the second constructor who takes arguments
+		this.plateNo=plateNo;   //assigning sent values from driver class into the variables.
+		this.yearManufacture=yearManufacture;
+		this.monthManufacture=monthManufacture;
+		this.color=color;
+		this.price=price;
+		this.manufacturedBy=manufacturedBy;
+		this.guaranteeDueToYear=guaranteeDueToYear;
+		this.guaranteeDueToMonth=guaranteeDueToMonth;
+	}
+	
+	
+	
+	public int getYearManufacture() {   //to return manufactured year.
+		return yearManufacture;
+	}
+	
+	
+	public int getMonthManufacture() {   //to return manufactured month.
+		return monthManufacture;
+	}
+	
+	
+	public String getColor() {   //to return the car color.
+		return ("The car color is "+color).toUpperCase() ;   //returning string in upper case.
+	}
+	
+	
+	
+	public double getPrice() {   //return the price of car.
+		return price;
+	}
+	
+	
+	public void setYearManufacture(int year) {   //to set the manufacture year if someone want to change the it.
+		yearManufacture=year;
+	}
+	
+	
+	public void setMonthManufacture(int month) {  //to set the manufacture month if someone wants to change it.
+		monthManufacture=month;
+	}
+	
+	
+	
+	public void setColor(String color) {  //to set the color of the car if someone wants to change it.
+		this.color=color;// (THIS) for assigning the old value of color to new one , we used it because the two variables have same name
+	}
+	
+	
+	
+	public void setGuarantee(int month,int year) {  //to set the guarantee if someone want to change it.
+		Date date=new Date();  //object of Date class.
+		guaranteeDueToYear=year;    //assigning new year to guarantee due to year.
+		int currentMonth=date.getMonth()+1;   //we use this to get the guarantee due to month for the MercedesBenz object.
+		if(month > 12) {     //because we added to month variable 7 months 6 for MercedesBenz guarantee and 1 to get the current month.
+			int temp=12-currentMonth;       //because the months start at 1 and end at 12 , to get start again from 1 when we reach 12.
+			month=month-currentMonth-temp ;    //to get the month if it was more than 12 .
+			guaranteeDueToYear++;
+		}
+		guaranteeDueToMonth=month;  //assigning new month to guarantee due to month.
+	}
+	
+	
+	
+	public String getCarAge() {   //to calculate and return the car age .
+		Date date=new Date();
+		int currentYear=date.getYear()+1900;
+		int currentMonth=date.getMonth()+1;
+		int yearAge=currentYear-yearManufacture;   //get car age in years by subtracting current year - manufactured year.
+		int monthAge=currentMonth-monthManufacture;    //get car age in months by subtracting current month - manufactured month.
+		if(yearAge < 0) {   //for the condition that months less than 0 .
+			System.out.println("the car is from the future !! , please enter available values");   //error massage.
+		}
+		if(monthAge<0) {    //for if the the months less than 0.
+			monthAge=monthAge*(-1);    //getting the positive value for month if it's less than zero .
+		}
+		return ("the car age is "+yearAge+" years "+monthAge+" months").toUpperCase();//concat the two values to return it as a STRING with UPPER CASE.
+	}
+	
+	
+	public String printCarInfo() {   // I USED THIS METHOD TO RETURNS ALL THE ATTRIBIUTES WHO HAVE AND DONT GETTER
+		String str1="The plate no is "+plateNo+"\n"+"The guarantee due to year "+guaranteeDueToYear+"\n"+"the guarantee due to month "+guaranteeDueToMonth+"\n";
+		String str2=getColor()+"\n"+"the car price is "+getPrice()+"\n"+getManufacturedBy()+"\n"+"the car manufactured in year "+getYearManufacture()+"\n";
+		String str3="the car manufactured in month "+getMonthManufacture()+"\n"+getCalculateGuarantee()+"\n"+getCarAge();//I USED THREE STRINGS TO MAKE IT EASY TO READ
+		return (str1+str2+str3).toUpperCase();//concat strings and return all information in upper case
+	}
+	
+	
+	
+	public String getManufacturedBy() {   //to get the company who manufactured the car.
+		return ("The car manufactured by "+manufacturedBy).toUpperCase();//return the name in the upper case.
+	}
+	
+	
+	
+
+	public String getCalculateGuarantee() {   //to calculate the remaining of guarantee in years and months.
+		Date date =new Date();
+		int currentYear=date.getYear()+1900;
+		int currentMonth=date.getMonth()+1;
+		int remainingYears = (guaranteeDueToYear - currentYear)*12 ;   //to get the remaining years of guarantee (by months).
+		int remainingMonths = guaranteeDueToMonth - currentMonth;   //to get the remaining months of guarantee.
+		if(remainingYears <= 0 && remainingMonths<=0) {   //if the guarantee finished.
+			System.out.println("The guarantee for this car finished !!");
+		}
+		if (remainingMonths < 0) {   //if the months is less than zero we should subtract it from years (in months).
+			remainingYears+=remainingMonths;   //to get the final number of months .
+			remainingMonths=remainingYears%12;   //to get the months if there's incomplete year.
+			remainingYears/=12 ;   //to get the years after checking the last condition.
+		}
+		else {  //if the remaining months not less than 0 .
+			remainingYears/=12;   //to get the default years value
+		}
+		
+		return ("The remainder from the cars guarantee "+remainingYears+" years "+remainingMonths+" months").toUpperCase();  //concat and return guarantee years and months as string in upper case
+	}
+}
+
